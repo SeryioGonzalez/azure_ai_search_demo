@@ -6,7 +6,7 @@ find $export_folder -type f -exec rm -f {} \;
 
 echo "Exporting dataset to $export_file"
 python export_dataset.py $export_file
-
+exit
 echo "Splitting dataset"
 lines_per_split_file=$(python lines_for_split.py $export_file $max_file_size)
 split -d -l $lines_per_split_file $export_file $split_file_prefix --filter='cat > $FILE.json'

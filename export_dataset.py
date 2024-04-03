@@ -24,9 +24,23 @@ def add_unique_id(dataset_row):
 config=helpers.parse_config('config.sh')
 
 # Load the dataset
-dataset_raw      = load_dataset(config['dataset_name'], config['config_name'], split=config['split'], trust_remote_code=True)
+if 'dataset_config_name' in config:
+    if 'dataset_split' in config:
+        dataset_raw = load_dataset(config['dataset_name'], config['dataset_config_name'], split=config['dataset_split'], trust_remote_code=True)
+    else:
+        dataset_raw = load_dataset(config['dataset_name'], config['dataset_config_name'], trust_remote_code=True)
+else:
+    dataset_raw = load_dataset(config['dataset_name'], trust_remote_code=True)
+
 # Remove unnecessary columns
-dataset_modified = dataset_raw.remove_columns(['images'])
+undesired_columns = [key for key in config.keys() if key.startswith('dataset_undesired_column_')]
+if len(undesired_columns) == 0:
+    print("No undesired columns found")
+    dataset_modified = dataset_raw
+else:
+    for undesired_column in undesired_columns:
+        print(f"Removing column {config[undesired_column]}")
+        dataset_modified = dataset_raw.remove_columns(config[undesired_column])
 
 # Add unique ID to each row
 dataset_modified = dataset_modified.map(add_unique_id)

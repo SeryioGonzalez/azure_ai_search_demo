@@ -20,6 +20,8 @@ split_file_prefix=$split_folder"dataset_"
 max_file_size=134217728
 
 # Intended for bash and python scripts. Put no spaces between the equal sign and the value.
+#dataset_name="Sleoruiz/discursos-completos-etiquetados"
 dataset_name="McAuley-Lab/Amazon-Reviews-2023"
-config_name="raw_review_Sports_and_Outdoors"
-split="full"
+dataset_config_name="raw_review_Sports_and_Outdoors"
+dataset_split="full"
+dataset_undesired_column_0="images"
